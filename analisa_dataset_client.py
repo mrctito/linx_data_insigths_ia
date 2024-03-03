@@ -94,31 +94,6 @@ def executar_analisys_dataset():
                     st.table(df)
 
 
-def run_query(query):
-    if not is_safe_query(query):
-        raise ValueError("A consulta contém comandos não permitidos.")
-
-    with st.spinner('Processando...'):
-        connection_string = os.getenv("DB_CONSULTAR_URL")
-        engine = create_engine(connection_string)
-        Session = sessionmaker(bind=engine)
-        session = Session()
-        try:
-            result = pd.read_sql_query(con=engine.connect(), sql=sql_text(query))
-            return result
-        except Exception as e:
-            raise e
-        finally:
-            session.close()
-
-
-def is_safe_query(query):
-    # Lista de comandos não permitidos
-    forbidden_commands = ["insert", "update", "delete", "drop", "alter", "create", "exec", "execute"]
-    # Verifica se algum dos comandos não permitidos está presente na consulta
-    return not any(command in query.lower() for command in forbidden_commands)
-
-
 # versão que precisa mandar sempre o dataset
 def analisar_dados(data_frame: pd.DataFrame, query: str):
     with st.spinner('Processando...'):
