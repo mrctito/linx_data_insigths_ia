@@ -1,5 +1,4 @@
-{
-"vendas": [
+[
 	{
 		"id_compras" : 9,
 		"quantidade_vendida" : 1,
@@ -2480,4 +2479,4 @@
 		"tipo_entrega" : "Retirada na Loja",
 		"nome_loja" : "SportZone"
 	}
-]}
+]

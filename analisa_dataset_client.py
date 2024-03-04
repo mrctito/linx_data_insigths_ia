@@ -49,7 +49,7 @@ def executar_analise_dataset():
 
     if st.session_state.data_frame is None:
         vendas_json = 'vendas.json'
-        df = pd.read_json(vendas_json)
+        df = pd.read_json(vendas_json, orient='records')
         st.session_state.data_frame = df
         AgGrid(st.session_state.data_frame)
 
