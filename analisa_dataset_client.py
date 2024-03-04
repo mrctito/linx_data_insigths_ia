@@ -59,8 +59,6 @@ def executar_analise_dataset():
             "Quais são os 3 nomes de produtos mais vendidos?",
             "Qual o mês com mais vendas?",
             "Qual meio de pagamento mais usado?",
-            "Existe uma correlação entre o tipo de entrega e a rapidez da conclusão do pedido?",
-            "Quais produtos são mais vendidos e qual é o impacto nas vendas de diferentes categorias de produtos?",
             "Como as vendas e os descontos variam ao longo do tempo?"
         ])  
 
