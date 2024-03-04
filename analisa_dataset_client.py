@@ -2,7 +2,6 @@ import ast
 import base64
 import io
 import os
-import httpx
 import pandas as pd
 import streamlit as st
 import json
