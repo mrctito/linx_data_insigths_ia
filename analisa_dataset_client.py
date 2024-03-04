@@ -41,6 +41,8 @@ def executar_analise_dataset():
     st.title("Análise de Dataset")
     setup_style()
 
+    col1, col2 = st.columns(2)
+
     if "data_frame" not in st.session_state:
         st.session_state.data_frame = None
 
@@ -53,31 +55,33 @@ def executar_analise_dataset():
         st.session_state.data_frame = df
 
     if st.session_state.data_frame is not None:
-        AgGrid(st.session_state.data_frame)
+        with col2:
+            AgGrid(st.session_state.data_frame)
 
-        pergunta = st.selectbox('Escolha uma pergunta, ou digite a sua abaixo:', [
-            "Quais são os 3 nomes de produtos mais vendidos?",
-            "Qual o mês com mais vendas?",
-            "Qual meio de pagamento mais usado?",
-            "Como as vendas e os descontos variam ao longo do tempo?"
-        ])  
+        with col1:
+            pergunta = st.selectbox('Escolha uma pergunta, ou digite a sua abaixo:', [
+                "Quais são os 3 nomes de produtos mais vendidos?",
+                "Qual o mês com mais vendas?",
+                "Qual meio de pagamento mais usado?",
+                "Como as vendas e os descontos variam ao longo do tempo?"
+            ])  
 
-        query = st.text_area(label="Digite sua pergunta aqui:", value=pergunta)
+            query = st.text_area(label="Digite sua pergunta aqui:", value=pergunta)
 
-        opcao = st.selectbox(
-            'Escolha uma técnica a ser utilizada:',
-            ('CHAIN', 'PANDAS')
-        )
+            opcao = st.selectbox(
+                'Escolha uma técnica a ser utilizada:',
+                ('CHAIN', 'PANDAS')
+            )
 
-        if st.button("Executar análise", key="executar_analise"):
-            if query and (query is not None) and (len(query) > 0) and (st.session_state.data_frame is not None):
-                df = st.session_state.data_frame
-                if opcao == 'CHAIN':
-                    tabela_json_str = df.to_json(orient='table')
-                    st.session_state.analise = svc_analisar_dataset_chain(tabela_json_str, query)
-                if opcao == 'PANDAS':
-                    json_str = df.to_json(orient='records')
-                    st.session_state.analise = svc_analisar_dataset_pandas(json_str, query)
+            if st.button("Executar análise", key="executar_analise"):
+                if query and (query is not None) and (len(query) > 0) and (st.session_state.data_frame is not None):
+                    df = st.session_state.data_frame
+                    if opcao == 'CHAIN':
+                        tabela_json_str = df.to_json(orient='table')
+                        st.session_state.analise = svc_analisar_dataset_chain(tabela_json_str, query)
+                    if opcao == 'PANDAS':
+                        json_str = df.to_json(orient='records')
+                        st.session_state.analise = svc_analisar_dataset_pandas(json_str, query)
 
-            if st.session_state.analise:
-                st.write(st.session_state.analise)
+                if st.session_state.analise:
+                    st.write(st.session_state.analise)

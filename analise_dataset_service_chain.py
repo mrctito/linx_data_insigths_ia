@@ -23,9 +23,6 @@ def svc_analisar_dataset_chain(tabela_json_str, query: str, verbose: bool = Fals
             Siga exatamente as instruções abaixo para realizar a tarefa.
               - Responda sempre em Português.
               - NÃO REPITA OS DADOS DA TABELA EM SUA RESPOSTA.
-              - NÃO ADICIONE NENHUMA INFORMAÇÃO SOBRE A TABELA NA RESPOSTA.
-              - NÃO ESCREVA A TABELA NA RESPOSTA.
-              - NÃO RETORNE O ESQUEMA DA TABELA NA RESPOSTA.
               - Não inclua seu raciocínio na resposta.
               - Retorne APENAS a resposta à pergunta do usuário.
 
