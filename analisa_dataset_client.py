@@ -19,6 +19,9 @@ from langchain.schema import Document, LLMResult
 from langchain_community.chat_models import ChatOpenAI
 from langchain.chains import AnalyzeDocumentChain
 from langchain.prompts import PromptTemplate
+from analisa_dataset_service_pandas import svc_analisar_dataset_pandas
+
+from analise_dataset_service_chain import svc_analisar_dataset_chain
 
 
 def setup_style():
@@ -50,17 +53,25 @@ def executar_analisys_dataset():
         df = pd.read_json(vendas_json)
         st.session_state.data_frame = df
         AgGrid(st.session_state.data_frame)
+
         query = st.text_area(label="Digite sua pergunta aqui:", value="quais são os 3 nomes de produtos mais vendidos?")
-        
+        opcao = st.selectbox(
+            'Escolha uma opção:',
+            ('PANDAS', 'CHAIN')
+        )
+
         if st.button("Executar análise", key="executar_analise"):
             if query and (query is not None) and (len(query) > 0) and (st.session_state.data_frame is not None):
                 if st.session_state.dataset_id == None:
-                    preparar_dataset(st.session_state.data_frame)
 
-                if st.session_state.dataset_id:
-                    st.session_state.analise = analisar_dataset(query)
+                    json_str = df.to_json(orient='records')
+                    if opcao == 'CHAIN':
+                        st.session_state.analise = svc_analisar_dataset_chain(json_str, query)
+                    if opcao == 'PANDAS':
+                        st.session_state.analise = svc_analisar_dataset_pandas(json_str, query)
 
-            if st.session_state.dataset_id and st.session_state.analise:
+
+            if st.session_state.analise:
                 st.write(st.session_state.analise)
 
                 try:

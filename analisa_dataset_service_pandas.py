@@ -1,18 +1,20 @@
-import pandas as pd
 from io import StringIO, BytesIO
 from typing import Any, Dict, List, Optional
 from numpy import double, require
+import jwt
 import typing
 from pydantic import BaseModel
-import jwt
+import pandas as pd
 from langchain_experimental.agents import create_pandas_dataframe_agent
 from langchain_experimental.agents.agent_toolkits.pandas.prompt import PREFIX
-
+from langchain.prompts import PromptTemplate
 from llm import cria_llm
 
 
 
-def ajustar_tipos_colunas(df: pd.DataFrame):
+def ajustar_tipos_colunas(json: Dict[str, Any]):
+
+
     for column in df.columns:
         col_type = df[column].dtype  # Obtem o tipo de dados da coluna atual
         
@@ -29,7 +31,7 @@ def ajustar_tipos_colunas(df: pd.DataFrame):
             df[column] = df[column].astype(str)
 
 
-async def svc_analisar_dataset(df: pd.DataFrame, query: str, verbose: bool = False):
+async def svc_analisar_dataset_pandas(df: pd.DataFrame, query: str, verbose: bool = False):
     print("Analisando dataset via pandas...")
     prompt = (
         """
@@ -54,6 +56,8 @@ async def svc_analisar_dataset(df: pd.DataFrame, query: str, verbose: bool = Fal
             """
         + query
     )
+
+    prompt = PromptTemplate.from_template(prompt)
 
     resultado = ""
     ajustar_tipos_colunas(df)
