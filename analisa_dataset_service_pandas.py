@@ -12,7 +12,7 @@ from llm import cria_llm
 
 
 
-def ajustar_tipos_colunas(json: Dict[str, Any]):
+def ajustar_tipos_colunas(df: pd.DataFrame):
 
 
     for column in df.columns:
@@ -31,7 +31,7 @@ def ajustar_tipos_colunas(json: Dict[str, Any]):
             df[column] = df[column].astype(str)
 
 
-async def svc_analisar_dataset_pandas(df: pd.DataFrame, query: str, verbose: bool = False):
+async def svc_analisar_dataset_pandas(json_obj: Dict[str, Any], query: str, verbose: bool = False):
     print("Analisando dataset via pandas...")
     prompt = (
         """
@@ -60,6 +60,7 @@ async def svc_analisar_dataset_pandas(df: pd.DataFrame, query: str, verbose: boo
     prompt = PromptTemplate.from_template(prompt)
 
     resultado = ""
+    df = pd.DataFrame(json_obj)
     ajustar_tipos_colunas(df)
     llm = cria_llm(prompt)
 

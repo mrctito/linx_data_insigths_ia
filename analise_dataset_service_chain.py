@@ -15,7 +15,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from llm import cria_chain, cria_llm
 
 
-def svc_analisar_dataset_chain(json: Dict[str, Any], query: str, verbose: bool = False):
+def svc_analisar_dataset_chain(tabela_json_str, query: str, verbose: bool = False):
     print("Analisando dataset via pandas...")
     prompt_template = (
         """
@@ -45,7 +45,7 @@ def svc_analisar_dataset_chain(json: Dict[str, Any], query: str, verbose: bool =
 
     prompt = PromptTemplate.from_template(prompt_template)
     chain = cria_chain(prompt, verbose=True)
-    result_text = chain.run(tabela=tabela_json, query=query)
+    result_text = chain.run(tabela=tabela_json_str, query=query)
 
     if hasattr(result_text, 'transformed_content'):
         texto_extraido = result_text.transformed_content

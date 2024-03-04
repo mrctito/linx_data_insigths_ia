@@ -62,13 +62,12 @@ def executar_analisys_dataset():
 
         if st.button("Executar análise", key="executar_analise"):
             if query and (query is not None) and (len(query) > 0) and (st.session_state.data_frame is not None):
-                if st.session_state.dataset_id == None:
-
-                    json_str = df.to_json(orient='records')
-                    if opcao == 'CHAIN':
-                        st.session_state.analise = svc_analisar_dataset_chain(json_str, query)
-                    if opcao == 'PANDAS':
-                        st.session_state.analise = svc_analisar_dataset_pandas(json_str, query)
+                json_str = df.to_json(orient='records')
+                if opcao == 'CHAIN':
+                    tabela_json_str = df.to_json(orient='table')
+                    st.session_state.analise = svc_analisar_dataset_chain(tabela_json_str, query)
+                if opcao == 'PANDAS':
+                    st.session_state.analise = svc_analisar_dataset_pandas(json_str, query)
 
 
             if st.session_state.analise:
