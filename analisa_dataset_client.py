@@ -66,7 +66,7 @@ def executar_analise_dataset():
 
         opcao = st.selectbox(
             'Escolha uma técnica a ser utilizada:',
-            ('PANDAS', 'CHAIN')
+            ('CHAIN', 'PANDAS')
         )
 
         if st.button("Executar análise", key="executar_analise"):
