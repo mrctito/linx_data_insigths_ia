@@ -45,7 +45,7 @@ def svc_analisar_dataset_chain(tabela_json_str, query: str, verbose: bool = Fals
 
     prompt = PromptTemplate.from_template(prompt_template)
     chain = cria_chain(prompt, verbose=True)
-    result_text = chain.run(tabela=tabela_json_str, query=query)
+    result_text = chain.invoke([{"tabela:", tabela_json_str}, {"query:", query}])
 
     if hasattr(result_text, 'transformed_content'):
         texto_extraido = result_text.transformed_content

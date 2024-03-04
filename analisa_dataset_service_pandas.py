@@ -42,29 +42,32 @@ def svc_analisar_dataset_pandas(json_str, query: str, verbose: bool = False):
             Você trabalhará sempre com os dados em formato Pandas Dataframe.
 
             Sempre dê a resposta correta em formato de texto da seguinte forma:
-            {"answer": "answer"}
+            "answer": "answer"
             Exemplo:
-            {"answer": "O título com a classificação mais alta é 'Gilead'"}
+            "answer": "O título com a classificação mais alta é 'Gilead'"
 
             Retorne toda a saída como uma string.
 
             Pense sempre passo a passo.
 
-            Abaixo está a consulta.
-
-            Query:
-            {query}
             """
     )
-
-    prompt = PromptTemplate.from_template(prompt)
 
     resultado = ""
     df = pd.read_json(json_str, orient='records')
     ajustar_tipos_colunas(df)
-    llm = cria_llm(prompt)
+    llm = cria_llm()
 
-    prefix = "Responda sempre em Português!\n"+PREFIX
-    agent = create_pandas_dataframe_agent(llm, df, prefix=prefix, max_iterations=60, max_execution_time=120, handle_parsing_errors=True, verbose=verbose, agent_executor_kwargs={"handle_parsing_errors": True})
-    resultado = agent.invoke({"question": query}) 
+    prefix = prompt+"\n"+PREFIX
+    agent = create_pandas_dataframe_agent(llm, 
+                                          df, 
+                                          prefix=prefix, 
+                                          max_iterations=60, 
+                                          max_execution_time=120, 
+                                          handle_parsing_errors=True, verbose=verbose, 
+                                          agent_executor_kwargs={"handle_parsing_errors": True},
+                                          include_df_in_prompt=True,
+                                          number_of_head_rows=5)
+    
+    resultado = agent.invoke(query) 
     return resultado 
