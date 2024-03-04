@@ -47,7 +47,7 @@ def svc_analisar_dataset_chain(tabela_json_str, query: str, verbose: bool = Fals
     chain = cria_chain(prompt, verbose=True)
     result_text = chain.invoke({"tabela": tabela_json_str, "query": query})
 
-    if hasattr(result_text, 'text'):
+    if 'text' in result_text:
         texto_extraido = result_text["text"]
     else:
         texto_extraido = result_text
