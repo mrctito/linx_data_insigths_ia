@@ -69,7 +69,6 @@ def executar_analise_dataset():
                     json_str = df.to_json(orient='records')
                     st.session_state.analise = svc_analisar_dataset_pandas(json_str, query)
 
-
             if st.session_state.analise:
                 st.write(st.session_state.analise)
 
