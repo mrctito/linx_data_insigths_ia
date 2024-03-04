@@ -47,7 +47,7 @@ def executar_analise_dataset():
     if "analise" not in st.session_state:
         st.session_state.analise = None
 
-    if st.session_state.data_frame is not None:
+    if st.session_state.data_frame is None:
         vendas_json = 'vendas.json'
         df = pd.read_json(vendas_json)
         st.session_state.data_frame = df
