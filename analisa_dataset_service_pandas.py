@@ -31,7 +31,7 @@ def ajustar_tipos_colunas(df: pd.DataFrame):
             df[column] = df[column].astype(str)
 
 
-async def svc_analisar_dataset_pandas(json_obj: Dict[str, Any], query: str, verbose: bool = False):
+def svc_analisar_dataset_pandas(json_str, query: str, verbose: bool = False):
     print("Analisando dataset via pandas...")
     prompt = (
         """
@@ -52,19 +52,19 @@ async def svc_analisar_dataset_pandas(json_obj: Dict[str, Any], query: str, verb
 
             Abaixo está a consulta.
 
-            Query: 
+            Query:
+            {query}
             """
-        + query
     )
 
     prompt = PromptTemplate.from_template(prompt)
 
     resultado = ""
-    df = pd.DataFrame(json_obj)
+    df = pd.read_json(json_str, orient='records')
     ajustar_tipos_colunas(df)
     llm = cria_llm(prompt)
 
     prefix = "Responda sempre em Português!\n"+PREFIX
     agent = create_pandas_dataframe_agent(llm, df, prefix=prefix, max_iterations=60, max_execution_time=120, handle_parsing_errors=True, verbose=verbose, agent_executor_kwargs={"handle_parsing_errors": True})
-    resultado = agent.run(prompt) 
+    resultado = agent.invoke({"question": query}) 
     return resultado 

@@ -55,9 +55,19 @@ def executar_analise_dataset():
     if st.session_state.data_frame is not None:
         AgGrid(st.session_state.data_frame)
 
-        query = st.text_area(label="Digite sua pergunta aqui:", value="quais são os 3 nomes de produtos mais vendidos?")
+        pergunta = st.selectbox('Escolha uma pergunta, ou digite a sua abaixo:', [
+            "Quais são os 3 nomes de produtos mais vendidos?",
+            "Qual é a eficácia das promoções e descontos na influência do valor pago pelos clientes?",
+            "Como a escolha do meio de pagamento afeta o comportamento de compra e a conclusão das vendas?",
+            "Existe uma correlação entre o tipo de entrega e a rapidez da conclusão do pedido?",
+            "Quais produtos são mais vendidos e qual é o impacto nas vendas de diferentes categorias de produtos?",
+            "Como as vendas e os descontos variam ao longo do tempo?"
+        ])  
+
+        query = st.text_area(label="Digite sua pergunta aqui:", value=pergunta)
+
         opcao = st.selectbox(
-            'Escolha uma opção:',
+            'Escolha uma técnica a ser utilizada:',
             ('PANDAS', 'CHAIN')
         )
 
@@ -73,13 +83,3 @@ def executar_analise_dataset():
 
             if st.session_state.analise:
                 st.write(st.session_state.analise)
-
-                try:
-                    response_dict = json.loads(st.session_state.analise)
-                except Exception as e:
-                    print(f"Ocorreu um erro em 'json.loads(st.session_state.analise)': {e}")
-                    return
-
-                # Check if the response is an answer.
-                if "answer" in response_dict:
-                    st.write(response_dict["answer"])
