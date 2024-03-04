@@ -37,7 +37,7 @@ def setup_style():
     """, unsafe_allow_html=True)
 
 
-def executar_analisys_dataset():
+def executar_analise_dataset():
 
     st.title("Análise de Dataset")
     setup_style()
