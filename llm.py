@@ -6,7 +6,7 @@ from langchain.chains import LLMChain
 
 
 def cria_llm_openai(verbose: bool = False):
-    llm = ChatOpenAI(temperature=0, verbose=verbose)
+    llm = ChatOpenAI(temperature=0, verbose=verbose, model=os.getenv("MODEL_NAME"))
     return llm
 
 

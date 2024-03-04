@@ -19,39 +19,33 @@ def svc_analisar_dataset_chain(tabela_json_str, query: str, verbose: bool = Fals
     print("Analisando dataset via pandas...")
     prompt_template = (
         """
-            Siga as instruções Para a consulta a seguir:
+            Você receberá uma tabela em formato Json e deverá responder a pergunta do usuário com base nela.
+
+            Siga as instruções abaixo para realizar a tarefa:
             
-            Responda sempre em Português.
-
-            Você trabalhará sempre com os dados de uma tabela em formato Json.
-
-            Sempre dê a resposta correta em formato de texto da seguinte forma:
-            "answer": "answer"
-            Exemplo:
-            "answer": "O título com a classificação mais alta é 'Gilead'"
-
-            Retorne toda a saída como uma string.
-
-            Pense sempre passo a passo.
+              -Responda sempre em Português.
+              -Não inclua a tabela na resposta.
+              -Não inclua seu raciocínio na resposta.
+              -Retorne a resposta como uma string.
 
             Aqui está a tabela de dados em formato JSON:
             {tabela}
 
-            Aqui está a consulta:
-
-            Query: {query}
+            Aqui está a pergunta do usuário:
+            {query}
             """
     )
 
-    prompt = PromptTemplate.from_template(prompt_template)
-    chain = cria_chain(prompt, verbose=True)
-    result_text = chain.invoke({"tabela:", tabela_json_str, "query:", query})
+    prompt = PromptTemplate(
+        template=prompt_template,
+        input_variables=["tabela", "query"]
+    )
 
-    if hasattr(result_text, 'transformed_content'):
-        texto_extraido = result_text.transformed_content
-    elif hasattr(result_text, 'raw_content'):
-        texto_extraido = result_text.raw_content
-        return texto_extraido
+    chain = cria_chain(prompt, verbose=True)
+    result_text = chain.invoke({"tabela": tabela_json_str, "query": query})
+
+    if hasattr(result_text, 'text'):
+        texto_extraido = result_text["text"]
     else:
         texto_extraido = result_text
     
