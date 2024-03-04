@@ -26,9 +26,9 @@ def svc_analisar_dataset_chain(tabela_json_str, query: str, verbose: bool = Fals
             Você trabalhará sempre com os dados de uma tabela em formato Json.
 
             Sempre dê a resposta correta em formato de texto da seguinte forma:
-            {"answer": "answer"}
+            "answer": "answer"
             Exemplo:
-            {"answer": "O título com a classificação mais alta é 'Gilead'"}
+            "answer": "O título com a classificação mais alta é 'Gilead'"
 
             Retorne toda a saída como uma string.
 
@@ -45,7 +45,7 @@ def svc_analisar_dataset_chain(tabela_json_str, query: str, verbose: bool = Fals
 
     prompt = PromptTemplate.from_template(prompt_template)
     chain = cria_chain(prompt, verbose=True)
-    result_text = chain.invoke([{"tabela:", tabela_json_str}, {"query:", query}])
+    result_text = chain.invoke({"tabela:", tabela_json_str, "query:", query})
 
     if hasattr(result_text, 'transformed_content'):
         texto_extraido = result_text.transformed_content

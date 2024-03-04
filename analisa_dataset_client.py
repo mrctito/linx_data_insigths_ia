@@ -57,8 +57,8 @@ def executar_analise_dataset():
 
         pergunta = st.selectbox('Escolha uma pergunta, ou digite a sua abaixo:', [
             "Quais são os 3 nomes de produtos mais vendidos?",
-            "Qual é a eficácia das promoções e descontos na influência do valor pago pelos clientes?",
-            "Como a escolha do meio de pagamento afeta o comportamento de compra e a conclusão das vendas?",
+            "Qual o mês com mais vendas?",
+            "Qual meio de pagamento mais usado?",
             "Existe uma correlação entre o tipo de entrega e a rapidez da conclusão do pedido?",
             "Quais produtos são mais vendidos e qual é o impacto nas vendas de diferentes categorias de produtos?",
             "Como as vendas e os descontos variam ao longo do tempo?"
