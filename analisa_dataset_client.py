@@ -51,6 +51,8 @@ def executar_analise_dataset():
         vendas_json = 'vendas.json'
         df = pd.read_json(vendas_json, orient='records')
         st.session_state.data_frame = df
+
+    if st.session_state.data_frame is not None:
         AgGrid(st.session_state.data_frame)
 
         query = st.text_area(label="Digite sua pergunta aqui:", value="quais são os 3 nomes de produtos mais vendidos?")
@@ -61,6 +63,7 @@ def executar_analise_dataset():
 
         if st.button("Executar análise", key="executar_analise"):
             if query and (query is not None) and (len(query) > 0) and (st.session_state.data_frame is not None):
+                df = st.session_state.data_frame
                 if opcao == 'CHAIN':
                     tabela_json_str = df.to_json(orient='table')
                     st.session_state.analise = svc_analisar_dataset_chain(tabela_json_str, query)
