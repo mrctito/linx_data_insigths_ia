@@ -15,8 +15,8 @@ from langchain.text_splitter import CharacterTextSplitter
 from llm import cria_chain, cria_llm
 
 
-def svc_analisar_dataset_chain(tabela_json_str, query: str, verbose: bool = False):
-    print("Analisando dataset via pandas...")
+async def svc_analisar_dataset_chain(tabela_json_str, query: str, verbose: bool = False):
+    print("Analisando dataset via chain...")
     prompt_template = (
         """
             Você receberá uma tabela em formato Json e deverá responder a pergunta do usuário com base nela.
@@ -42,7 +42,7 @@ def svc_analisar_dataset_chain(tabela_json_str, query: str, verbose: bool = Fals
     )
 
     chain = cria_chain(prompt, verbose=True)
-    result_text = chain.invoke({"tabela": tabela_json_str, "query": query})
+    result_text = await chain.ainvoke({"tabela": tabela_json_str, "query": query})
 
     if 'text' in result_text:
         texto_extraido = result_text["text"]

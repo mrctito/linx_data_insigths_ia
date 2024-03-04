@@ -10,9 +10,9 @@ from analisa_dataset_client import executar_analise_dataset
 
 
 
-def main():
-  executar_analise_dataset()
+async def main():
+  await executar_analise_dataset()
 
 
 if __name__ == "__main__":
-  main()
+  asyncio.run(main())

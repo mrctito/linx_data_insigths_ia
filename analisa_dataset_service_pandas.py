@@ -31,7 +31,7 @@ def ajustar_tipos_colunas(df: pd.DataFrame):
             df[column] = df[column].astype(str)
 
 
-def svc_analisar_dataset_pandas(json_str, query: str, verbose: bool = False):
+async def svc_analisar_dataset_pandas(json_str, query: str, verbose: bool = False):
     print("Analisando dataset via pandas...")
     prompt = (
         """
@@ -69,5 +69,5 @@ def svc_analisar_dataset_pandas(json_str, query: str, verbose: bool = False):
                                           include_df_in_prompt=True,
                                           number_of_head_rows=5)
     
-    resultado = agent.invoke(query) 
+    resultado = await agent.ainvoke(query) 
     return resultado 

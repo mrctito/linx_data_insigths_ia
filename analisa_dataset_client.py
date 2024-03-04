@@ -36,7 +36,7 @@ def setup_style():
     """, unsafe_allow_html=True)
 
 
-def executar_analise_dataset():
+async def executar_analise_dataset():
 
     st.title("Análise de Dataset")
     setup_style()
@@ -78,10 +78,10 @@ def executar_analise_dataset():
                     df = st.session_state.data_frame
                     if opcao == 'CHAIN':
                         tabela_json_str = df.to_json(orient='table')
-                        st.session_state.analise = svc_analisar_dataset_chain(tabela_json_str, query)
+                        st.session_state.analise = await svc_analisar_dataset_chain(tabela_json_str, query)
                     if opcao == 'PANDAS':
                         json_str = df.to_json(orient='records')
-                        st.session_state.analise = svc_analisar_dataset_pandas(json_str, query)
+                        st.session_state.analise = await svc_analisar_dataset_pandas(json_str, query)
 
                 if st.session_state.analise:
                     st.write(st.session_state.analise)
